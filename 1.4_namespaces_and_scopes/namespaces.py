@@ -36,6 +36,10 @@ for i in range(n):
         add(req[1], req[2])
         for j in namespaces:
             print('Namespace ' + '\''+ j + '\'' + ": " + str(namespaces[j]))
+    elif req[0] == 'add':
+        get(req[1], req[2])
+        for j in namespaces:
+            print('Namespace ' + '\''+ j + '\'' + ": " + str(namespaces[j]))
 
 
 
