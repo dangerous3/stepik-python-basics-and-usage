@@ -10,7 +10,7 @@ class multifilter:
 
     def judge_all(self, pos, neg):
         # допускает элемент, если его допускают все функции (neg == 0)
-        return neg == 0
+        return neg == 0 and pos >= 1
 
     def __init__(self, iterable, *funcs, judge=judge_any):
         # iterable - исходная последовательность
