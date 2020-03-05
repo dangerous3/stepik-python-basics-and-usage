@@ -41,7 +41,7 @@ with open("../result-2.4-6.txt", "w") as wr:
             if file.endswith(".py"):
                 #print(os.path.join(root, file))
                 fullpath = root
-                relative = os.path.relpath(path=fullpath, start='/home/dangerous3/PycharmProjects/stepik-python-basics-and-usage/2.4_files_and_Python/samples/2.4-6')
+                relative = os.path.relpath(path=fullpath, start='/home/dangerous3/PycharmProjects/stepik-python-basics-and-usage/m2.4_files_and_Python/samples/2.4-6')
                 for_sorting.add(relative)
     for i in sorted(for_sorting):
         wr.write(i + "\n")
