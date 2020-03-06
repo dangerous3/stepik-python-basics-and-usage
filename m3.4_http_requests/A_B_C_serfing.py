@@ -18,10 +18,7 @@ class StepikHTMLParser(HTMLParser):
 
 
     def read_site_content(self):
-        try:
             return str(urlopen(self.url1).read())
-        except:
-            print("No")
 
     def handle_starttag(self, tag, attrs):
         flag = False
@@ -46,4 +43,7 @@ class StepikHTMLParser(HTMLParser):
 u1 = input()
 u2 = input()
 
-a = StepikHTMLParser(u1, u2)
+try:
+    a = StepikHTMLParser(u1, u2)
+except:
+    print("No")
