@@ -1,44 +1,49 @@
 from html.parser import HTMLParser
 from urllib.request import urlopen
+import requests
+import re
+
 
 class StepikHTMLParser(HTMLParser):
     def __init__(self, url1, url2, *args, **kwargs):
         # список ссылок
         self.links = []
-        #self.site_name = site_name
         self.url1 = url1
         self.url2 = url2
-        # имя сайта
+        self.b = ""
         # вызываем __init__ родителя
         super().__init__(*args, **kwargs)
-        # при инициализации "скармливаем" парсеру содержимое страницы
+        # при инициализации отдаем парсеру содержимое страницы
         self.feed(self.read_site_content())
 
+
     def read_site_content(self):
-        return str(urlopen(self.url1).read())
+        try:
+            return str(urlopen(self.url1).read())
+        except:
+            print("No")
 
     def handle_starttag(self, tag, attrs):
+        flag = False
         if tag == 'a':
             for attr in attrs:
-                if attr[0] == 'href':
-                    self.links.append(attr[1])
-            self.check_links_to(self.url2, self.links)
-
-    def check_links_to(self, url, urllist):
-        self.url = url
-        self.urllist = urllist
-        self.flag = False
-        for urls in self.urllist:
-            if self.url in urls:
-                self.flag = True
-                print("True")
-                return True
-        if self.flag == False:
-            print("False")
+                if re.search(r'http.*:\/\/.*', str(attr[1])):
+                    self.links.append(str(attr[1]))
+        for urls in self.links:
+            r = requests.get(urls)
+            if r.status_code == 200:
+                if re.search(self.url2, r.text):
+                    flag = True
+            else:
+                continue
+        if flag == True:
+            print("Yes")
+            return True
+        else:
+            print("No")
             return False
 
 u1 = input()
 u2 = input()
 
 a = StepikHTMLParser(u1, u2)
-
