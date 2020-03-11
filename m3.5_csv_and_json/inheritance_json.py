@@ -1,21 +1,25 @@
 import json
+from collections import defaultdict
 
 js = json.loads(input())
 
 print(js)
 
-transposed = {}
-js_transposed = []
-ts = set()
+sibling = []
+inverted = {}
 
-for i in js:
-    if len(i['parents']) != 0:
-        for j in i['parents']:
-            if j != i['name']:
-                ts.add(i['name'])
-                transposed[j] = ts
+# Конвертирование в структуру данных:
+# inverted = {ancestor : [list of siblings]}
+for dct in js:
+    if len(dct['parents']) != 0:
+        for parent in dct['parents']:
+           if inverted.get(parent) == None:
+                inverted[parent] = [dct['name']]
+           else:
+               inverted[parent].append(dct['name'])
 
-print(transposed)
+
+print(inverted)
 
 # Функция нахождения всех путей между двумя нодами
 # Используется техника backtracking (см. http://www.infocity.kiev.ua/prog/python/content/pytonesse_3.shtml)
