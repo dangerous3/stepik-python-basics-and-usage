@@ -80,3 +80,4 @@ for line in sys.stdin:
 #             print('0')
 
 # correct regex: (1(01*0)*1|0)*
+# see also test_binary_3() on https://github.com/qntm/greenery/blob/master/greenery/lego_test.py
