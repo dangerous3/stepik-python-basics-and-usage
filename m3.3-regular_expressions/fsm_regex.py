@@ -31,6 +31,11 @@ Sample Output:
 0
 10010
 01001
+
+# correct regex: (1(01*0)*1|0)*
+# see also test_binary_3() on https://github.com/qntm/greenery/blob/master/greenery/lego_test.py
+# see also: https://itnan.ru/post.php?c=1&p=420817
+# see also: https://fooobar.com/questions/1247901/convert-finite-state-machine-to-regular-expression
 '''
 
 from greenery import fsm, lego
@@ -42,13 +47,16 @@ a, b = '1', '0'
 
 machine = fsm.fsm(
     alphabet = {a, b},
-    states   = {A, B, C},
-    initial  = A,
-    finals   = {C},
+    states   = {"initial", "zero", A, B, C, None},
+    initial  = "initial",
+    finals   = {"zero", A},
     map      = {
-            A : {a: B, b: A},
-            B : {a: A, b: C},
-            C : {a: C, b: B},
+        "initial" : {b : "zero", a : B},
+        "zero" : {a : None, b : None},
+        A : {a : B, b : A},
+        B : {a : A, b : C},
+        C : {a : C, b : B},
+        None : {a : None, b : None},
     },
 )
 
@@ -63,21 +71,20 @@ print(rex)
 for line in sys.stdin:
     if line:
         line = line.rstrip()
-        if re.fullmatch(rf'{rex}', line):
+        if re.fullmatch('{rex}', line):
             print(line)
         elif line == '0':
             print('0')
 
+# For stepik solution checker:
 # import re
 # import sys
 #
 # for line in sys.stdin:
 #     if line:
 #         line = line.rstrip()
-#         if re.fullmatch(r'^(0|1(01*0)*1)*1(01*0)*01*', line):
+#         if re.fullmatch(r'(1(01*0)*1|0)*', line):
 #             print(line)
 #         elif line == '0':
 #             print('0')
 
-# correct regex: (1(01*0)*1|0)*
-# see also test_binary_3() on https://github.com/qntm/greenery/blob/master/greenery/lego_test.py
